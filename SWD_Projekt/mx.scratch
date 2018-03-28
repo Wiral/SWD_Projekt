@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>C:\Users\szuha\Desktop\stm32_workspace\accelerometer\\accelerometer</ProjectName>
+<ProjectName>C:\Users\szuha\git\SWD_Projekt\SWD_Projekt\\accelerometer</ProjectName>
 <ProjectNature>C</ProjectNature> 
 <CMSIS>..\Drivers\CMSIS</CMSIS>
 <HAL_Driver>C:\Users\szuha\STM32Cube\Repository\STM32Cube_FW_F3_V1.9.0\Drivers\CMSIS</HAL_Driver>

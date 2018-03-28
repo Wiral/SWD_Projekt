@@ -1,16 +1,12 @@
 /**
   ******************************************************************************
-  * File Name          : gpio.c
-  * Description        : This file provides code for the configuration
-  *                      of all used GPIO pins.
+  * @file    stm32f3xx_hal_spi_ex.h
+  * @author  MCD Application Team
+  * @brief   Header file of SPI HAL Extended module.
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
+  * @attention
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -37,62 +33,59 @@
   ******************************************************************************
   */
 
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __STM32F3xx_HAL_SPI_EX_H
+#define __STM32F3xx_HAL_SPI_EX_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
-#include "gpio.h"
-/* USER CODE BEGIN 0 */
+#include "stm32f3xx_hal_def.h"
 
-/* USER CODE END 0 */
+/** @addtogroup STM32F3xx_HAL_Driver
+  * @{
+  */
 
-/*----------------------------------------------------------------------------*/
-/* Configure GPIO                                                             */
-/*----------------------------------------------------------------------------*/
-/* USER CODE BEGIN 1 */
+/** @addtogroup SPIEx
+  * @{
+  */
 
-/* USER CODE END 1 */
+/* Exported types ------------------------------------------------------------*/
+/* Exported constants --------------------------------------------------------*/
+/* Exported macros -----------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
+/** @addtogroup SPIEx_Exported_Functions
+  * @{
+  */
 
-/** Configure pins as 
-        * Analog 
-        * Input 
-        * Output
-        * EVENT_OUT
-        * EXTI
-*/
-void MX_GPIO_Init(void)
-{
+/* Initialization and de-initialization functions  ****************************/
+/* IO operation functions *****************************************************/
+/** @addtogroup SPIEx_Exported_Functions_Group1
+  * @{
+  */
+HAL_StatusTypeDef HAL_SPIEx_FlushRxFifo(SPI_HandleTypeDef *hspi);
+/**
+  * @}
+  */
 
-  GPIO_InitTypeDef GPIO_InitStruct;
+/**
+  * @}
+  */
 
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOF_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
+/**
+  * @}
+  */
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3|GPIO_PIN_9|GPIO_PIN_11|GPIO_PIN_13 
-                          |GPIO_PIN_15, GPIO_PIN_RESET);
+/**
+  * @}
+  */
 
-  /*Configure GPIO pins : PE3 PE9 PE11 PE13 
-                           PE15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_9|GPIO_PIN_11|GPIO_PIN_13 
-                          |GPIO_PIN_15;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-
+#ifdef __cplusplus
 }
+#endif
 
-/* USER CODE BEGIN 2 */
-
-/* USER CODE END 2 */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
+#endif /* __STM32F3xx_HAL_SPI_EX_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
