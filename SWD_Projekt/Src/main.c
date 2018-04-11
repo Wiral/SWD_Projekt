@@ -1,41 +1,4 @@
 
-/**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
-  *
-  * COPYRIGHT(c) 2018 STMicroelectronics
-  *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f3xx_hal.h"
@@ -47,13 +10,13 @@
 /* USER CODE BEGIN Includes */
 #include "gyro.h"
 #include "acc.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 
 /* USER CODE BEGIN PV */
 int msg_size;
 uint8_t msg[50];
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -61,27 +24,18 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-void SendData(int16_t* data) {
-	msg_size = sprintf(msg, "X: %d, Y: %d, Z: %d  \r\n", data[0], data[1], data[2]);
-	HAL_UART_Transmit_IT(&huart1, msg, msg_size);
 
-}
 //UART printf
-//int _write(int file, char* ptr, int len) {
-//	HAL_UART_Transmit(&huart1, ptr, len, 50);
-//	return len;
-//}
+int _write(int file, char* ptr, int len) {
+	HAL_UART_Transmit(&huart1, ptr, len, 50);
+	return len;
+}
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
 
-/**
-  * @brief  The application entry point.
-  *
-  * @retval None
-  */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -120,32 +74,30 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-		//LSM303_ReadAxis();
-		//SendData(acc_data);
-//		if (acc_data[0] > 200) {
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, 1);
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, 0);
-//		}
-//
-//		else if (acc_data[0] < -200) {
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, 0);
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, 1);
-//		}
-//		if (acc_data[1] > 200) {
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, 0);
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, 1);
-//		}
-//
-//		else if (acc_data[1] < -200) {
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, 1);
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, 0);
-//		}
+		if (acc_data[0] > 200) {
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, 1);
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, 0);
+		}
+
+		else if (acc_data[0] < -200) {
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, 0);
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, 1);
+		}
+		if (acc_data[1] > 200) {
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, 0);
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, 1);
+		}
+
+		else if (acc_data[1] < -200) {
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, 1);
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, 0);
+		}
 
 		L3GD20_ReadAxis();
 		LSM303_ReadAxis();
-		SendData(gyro_data);
+		printf("Gyro: RotX: %d RotY: %d RotZ: %d\r\n",gyro_data[0],gyro_data[1],gyro_data[2]);
 		HAL_Delay(50);
-		SendData(acc_data);
+		printf("Acc: X: %d Y: %d Z: %d\r\n",acc_data[0],acc_data[1],acc_data[2]);
 		HAL_Delay(300);
 		//UWAGA = JEZELI GYRO NIE DZIALA, TZN ZE TRZEBA USTAWIC
 		// hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
